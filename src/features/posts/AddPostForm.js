@@ -1,36 +1,35 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { postAdded } from './postSlice'
-import { nanoid } from '@reduxjs/toolkit'
+import { getAllUsers } from '../users/usersSlice'
 
 export const AddPostForm = () => {
 
-
     const [title, setTitle] = useState("")
     const [content, setContent] = useState("")
-    const dispatch = useDispatch()
+    const [userId, setUserId] = useState("")
 
+    const users = useSelector(getAllUsers)
+    console.log(users)
+
+    const dispatch = useDispatch()
 
     const onTitleChange = event => setTitle(event.target.value.trim())
     const onContentChange = event => setContent(event.target.value.trim())
-
+    const onIdChange = event => setUserId(event.target.value.trim())
 
     const onSubmit = (event) => {
 
         event.preventDefault()
         if(title && content) {
             dispatch(
-                postAdded({
-                    id: nanoid(),
-                    title,
-                    content
-                })
+                postAdded(title, content, userId)
             )
             setTitle("")
             setContent("")
         }
-
     }
+
     return (
         <section>
             <h2>Add a New Post</h2>
@@ -51,6 +50,13 @@ export const AddPostForm = () => {
                     id='postContent'
                     value={content}
                     onChange={onContentChange}
+                />
+                <input
+                    type='text'
+                    name='userId'
+                    id='userId'
+                    value={userId}
+                    onChange={onIdChange}
                 />
                 <button type='submit'>Save</button>
             </form>
