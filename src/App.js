@@ -8,8 +8,8 @@ const App = () => {
     <>
       <div>Redux Toolkit</div>
       <Counter />
-      <PostList/>
       <AddPostForm/>
+      <PostList/>
     </>
   )
 }
